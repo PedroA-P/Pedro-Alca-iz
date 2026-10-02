@@ -5,8 +5,8 @@ import java.util.List;
 public class Calculator {
     public final static String EMPTY = "empty";
 
-    // Multiply two integers
-    public int multiply(int a, int b) {
+    // Multiply two doubles
+    public double multiply(double a, double b) {
         return a * b;
     }
 
