@@ -1,8 +1,12 @@
 package com.introsoftware.model;
 import java.util.List;
 public class Order {
+    
 private String id;
 private List<Article> articles;
+
+public Order() {
+}
 
 public Order(String id, List<Article> articles) {
 this.id = id;
