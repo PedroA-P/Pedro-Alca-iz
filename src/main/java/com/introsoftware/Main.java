@@ -19,14 +19,20 @@ public class Main {
 
         InputStream inputStream =
                 Main.class.getClassLoader().getResourceAsStream("orders.json");
-
-        List<Order> orders = objectMapper.readValue(
-                inputStream,
-                new TypeReference<List<Order>>() {}
-        );
-
-        for (Order order : orders) {
-            logger.info("Loaded order: " + order.getId());
+   List<Order> orders;
+        try {
+            orders = objectMapper.readValue(
+                    inputStream,
+                    new TypeReference<List<Order>>() {}
+            );
+            for (Order order : orders) {
+               logger.info("Loaded order: " + order.getId());
         }
+        } catch (Exception e) {
+            
+            logger.error("Error occurred while reading orders", e);
+        }
+
+     
     }
-}
+}    
