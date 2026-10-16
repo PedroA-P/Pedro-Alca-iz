@@ -6,8 +6,12 @@ import java.util.List;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.introsoftware.model.Order;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Main {
+
+    private static final Logger logger = LoggerFactory.getLogger(Main.class);   
 
     public static void main(String[] args) throws IOException {
 
@@ -22,7 +26,7 @@ public class Main {
         );
 
         for (Order order : orders) {
-            System.out.println("Loaded order: " + order.getId());
+            logger.info("Loaded order: " + order.getId());
         }
     }
 }
