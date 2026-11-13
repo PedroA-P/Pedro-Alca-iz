@@ -70,7 +70,7 @@
             <configuration>
                 <archive>
                     <manifest>
-                        <mainClass>com.uem.Main</mainClass>
+                        <mainClass>com.introsoftware.Main</mainClass>
                     </manifest>
                 </archive>
             </configuration>
