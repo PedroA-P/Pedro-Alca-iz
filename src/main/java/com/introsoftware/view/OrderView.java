@@ -1,7 +1,14 @@
 package com.introsoftware.view;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.FlowLayout;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import com.introsoftware.model.Article;
 import com.introsoftware.model.Order;
@@ -10,7 +17,7 @@ public class OrderView extends JFrame {
 
     private JTextField searchField = new JTextField(10);
     private JButton searchButton = new JButton("Search");
-    private JTextArea resultArea = new JTextArea(10, 40);
+    private JTextArea resultArea = new JTextArea(12, 45);
 
     public OrderView() {
 
@@ -19,21 +26,30 @@ public class OrderView extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new FlowLayout());
 
-        // Texto "Order ID:"
+        // Icono de la aplicación
+        try {
+            setIconImage(
+                new ImageIcon(
+                    getClass().getResource("/app.png")
+                ).getImage()
+            );
+        } catch (Exception e) {
+            System.out.println("App icon not found.");
+        }
+
         add(new JLabel("Order ID:"));
-
-        // Campo donde escribimos O001, O002...
         add(searchField);
-
-        // Botón Search
         add(searchButton);
 
-        // Área donde aparecerá el resultado
         resultArea.setEditable(false);
+
         add(new JScrollPane(resultArea));
 
         pack();
+
+        // Centrar la ventana
         setLocationRelativeTo(null);
+
         setVisible(true);
     }
 
@@ -59,24 +75,43 @@ public class OrderView extends JFrame {
                   .append(" x")
                   .append(article.getCantidad())
                   .append(" @ ")
-                  .append(article.getPrecio())
-                  .append("€")
+                  .append(String.format("%.2f", article.getPrecio()))
+                  .append(" €")
                   .append(" (discount ")
-                  .append(article.getDescuento())
+                  .append(String.format("%.2f", article.getDescuento()))
                   .append("%)")
                   .append(" = ")
-                  .append(article.getDiscountedAmount())
-                  .append("€")
+                  .append(String.format("%.2f", article.getDiscountedAmount()))
+                  .append(" €")
                   .append("\n");
         }
 
-        result.append("\nGross total: ")
-              .append(order.getGrossTotal())
-              .append("€");
+        double grossTotal = order.getGrossTotal();
+        double discountedTotal = order.getDiscountedTotal();
 
-        result.append("\nDiscounted total: ")
-              .append(order.getDiscountedTotal())
-              .append("€");
+        double grossTotalUsd = grossTotal * rate;
+        double discountedTotalUsd = discountedTotal * rate;
+
+        result.append("\n");
+
+        result.append("Gross total (EUR): ")
+              .append(String.format("%.2f", grossTotal))
+              .append(" €\n");
+
+        result.append("Discounted total (EUR): ")
+              .append(String.format("%.2f", discountedTotal))
+              .append(" €\n");
+
+        result.append("Gross total (USD): ")
+              .append(String.format("%.2f", grossTotalUsd))
+              .append(" $\n");
+
+        result.append("Discounted total (USD): ")
+              .append(String.format("%.2f", discountedTotalUsd))
+              .append(" $\n");
+
+        result.append("EUR/USD rate: ")
+              .append(String.format("%.4f", rate));
 
         resultArea.setText(result.toString());
     }
